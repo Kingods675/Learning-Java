@@ -2,7 +2,7 @@ import java.util.HashMap;
 
 public class RomanToInteger {
     public static void main(String[] args) {
-        System.out.println(romanToInt("MCMXCIV"));
+        System.out.println(romanToInt("MDCXCV"));
     }
 
     public static int romanToInt(String s) {
@@ -16,19 +16,20 @@ public class RomanToInteger {
         romanNum.put('M', 1000);
 
         int sum = 0;
-        for (int i = 0; i < s.length(); i++) {
-            if (i > 0) {
-                char curr = s.charAt(i);
-                char prev = s.charAt(i - 1);
-                if ((prev == 'I' && curr == 'V') || (prev == 'I' && curr == 'X') || (prev == 'X' && curr == 'L') || (prev == 'X' && curr == 'C') || (prev == 'C' && curr == 'D') || (prev == 'C' && curr == 'M')) {
-                    int specialNum = romanNum.get(curr) - romanNum.get(prev);
-                    sum = sum + specialNum;
-                } else {
-                    sum = sum + romanNum.get(curr);
-                }
+        int i = 0;
+        while ( i < s.length()) {
+            char curr = s.charAt(i);
+            char next = i < s.length() - 1 ? s.charAt( i + 1 ) : s.charAt(i);
+            if ((curr == 'I' && next == 'V') || (curr == 'I' && next == 'X') || (curr == 'X' && next == 'L') || (curr == 'X' && next == 'C') || (curr == 'C' && next == 'D') || (curr == 'C' && next == 'M')) {
+                int specialNum = romanNum.get(next) - romanNum.get(curr);
+                sum = sum + specialNum;
+                i += 2;
             } else {
-                sum = sum + romanNum.get(s.charAt(i));
+                sum = sum + romanNum.get(curr);
+                i++;
             }
-        } return sum;
+        }
+        return sum;
     }
 }
+
